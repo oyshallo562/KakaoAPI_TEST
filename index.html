@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>hello</title>
+</head>
+<body>
+    <div id="map" style="width:500px;height:400px;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6cb98adbc3bfdcc9903aa83189a599d0&libraries=services,clusterer,drawing"></script>
+    
+    <script>
+        var addressArray = new Array; //주소지 배열생성
+        var contentArray = new Array; //마커 내용 배열생성
+    
+        $.ajax({
+            method: "GET",
+            async:false,
+            url: "https://api.odcloud.kr/api/15090473/v1/uddi:a0c840f5-419e-43e5-a710-d9942723724d",
+    data: { serviceKey : "jhq/lqOYKUFhCUAnlm8pRxmM6WsJrWo9FAnxAI05bFnsSnBiVircto/MEPRfca/wGihpts7pvrHHjs/VcmZUIg==" },
+        }).done(function (msg) {
+                for (let i = 0; i < 10; i++) {
+                    contentArray.push(msg.data[i].도로명주소)
+                    contentArray.push(msg.data[i].설치장소)
+                }
+                //$('#test').text(msg.data[1].도로명주소);
+                console.log(msg);
+            });
+            var positions = new Array;
+            
+            for(let i = 0; i < 10; i++) {
+                // 주소-좌표 변환 객체를 생성합니다
+                var geocoder = new kakao.maps.services.Geocoder();
+                
+                // 주소로 좌표를 검색합니다
+                geocoder.addressSearch(addressArray[i], function(result, status) {
+                    // 정상적으로 검색이 완료됐으면 
+                     if (status === kakao.maps.services.Status.OK) {
+                        positions.push({'Title':contentArray[i],'x':result[0].x,'y':result[0].y})
+                    } 
+                });    
+            }
+
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };  
+                
+            // 지도를 생성합니다    
+            var map = new kakao.maps.Map(mapContainer, mapOption); 
+            var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+            
+            for (var i = 0; i < positions.length; i ++) {
+    
+                // 마커 이미지의 이미지 크기 입니다
+                var imageSize = new kakao.maps.Size(24, 35); 
+                
+                // 마커 이미지를 생성합니다    
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+                
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    map: map, // 마커를 표시할 지도
+                    position: positions[i].latlng, // 마커를 표시할 위치
+                    title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                    image : markerImage // 마커 이미지 
+                });
+            }
+                
+</script>
+</body>
+</html>
