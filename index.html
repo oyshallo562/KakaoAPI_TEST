@@ -40,6 +40,9 @@
                     // 정상적으로 검색이 완료됐으면 
                      if (status === kakao.maps.services.Status.OK) {
                         positions.push({'Title':contentArray[i],'x':result[0].x,'y':result[0].y})
+                        console.log(contentArray[i]);
+                        console.log(result[0].x);
+                        console.log(result[0].y);
                     } 
                 });    
             }
@@ -52,7 +55,7 @@
                 
             // 지도를 생성합니다    
             var map = new kakao.maps.Map(mapContainer, mapOption); 
-            var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+            //var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
             
             for (var i = 0; i < positions.length; i ++) {
     
@@ -60,7 +63,7 @@
                 var imageSize = new kakao.maps.Size(24, 35); 
                 
                 // 마커 이미지를 생성합니다    
-                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+                //var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
                 
                 // 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
