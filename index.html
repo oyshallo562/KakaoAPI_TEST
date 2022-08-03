@@ -7,13 +7,15 @@
 <body>
     <div id="map" style="width:500px;height:400px;"></div>
 
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6cb98adbc3bfdcc9903aa83189a599d0&libraries=services,clusterer,drawing"></script>
     
     <script>
         var addressArray = new Array; //주소지 배열생성
         var contentArray = new Array; //마커 내용 배열생성
-    
+        Kakao.init('6cb98adbc3bfdcc9903aa83189a599d0');
+
         $.ajax({
             method: "GET",
             async:false,
